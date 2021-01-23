@@ -20,7 +20,7 @@ spec:
       image: 'buildah/buildah'
       securityContext:
         privileged: true
-      command: ["sleep", "1d"]
+      command: ["/bin/sh" , "-c", "tail -f /dev/null" ]
       volumeMounts:
         - name: buildcachedir
           mountPath: /var/lib/containers/cache
