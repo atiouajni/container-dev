@@ -20,11 +20,11 @@ buildah images
 
 #push image to docker registry
 buildah login registry.hub.docker.com
-buildah push localhost/cekit-buildah docker://registry.hub.docker.com/atiouajni/cekit-buildah:latest
+buildah push cekit-buildah docker://registry.hub.docker.com/atiouajni/cekit-buildah:latest
 
 #push to openshift internal registry
 buildah login --tls-verify=false -u anyone -p $(cat /var/run/secrets/kubernetes.io/serviceaccount/token) image-registry.openshift-image-registry.svc:5000
-buildah push --tls-verify=false localhost/cekit-buildah docker://image-registry.openshift-image-registry.svc:5000/openshift/cekit-buildah
+buildah push --tls-verify=false cekit-buildah docker://image-registry.openshift-image-registry.svc:5000/cekit-buildah/cekit-buildah
 ```
 
 If you are runnning Buildah in container, you should clone this repository in your host then rsyn content to the pod
