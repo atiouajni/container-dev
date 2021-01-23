@@ -1,0 +1,35 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: cekit-buildah
+  labels:
+    app: cekit-buildah
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+  containers:
+    - resources:
+        limits:
+          cpu: 500m
+          memory: 896Mi
+        requests:
+          cpu: 200m
+          memory: 896Mi
+      name: cekit-buildah-container
+      image: 'registry.hub.docker.com/atiouajni/cekit-buildah:latest'
+      securityContext:
+        privileged: true
+      command: ["sleep", "1d"]
+      volumeMounts:
+        - name: buildcachedir
+          mountPath: /var/lib/containers/cache
+        - name: container-storage-root
+          mountPath: /var/lib/containers/storage
+  volumes:
+    - name: buildcachedir
+      hostPath:
+        path: /var/lib/containers/cache
+        type: ''
+    - name: container-storage-root
+      emptyDir: {}
+
