@@ -12,29 +12,27 @@ Buildah Pod need to be executed with privileged mode to access host system. Volu
 [CEKit](https://docs.cekit.io/en/latest/index.html) helps to build container images from image definition files with strong focus on modularity and code reuse. 
 
 ```shell
+git clone https://github.com/atiouajni/container-dev; cd container-dev
+
+#if you are using buildah in container, perform this task
+oc rsync . buildah:/tmp; oc exec -it buildah -- /bin/sh
+cd /tmp
+
 #performs the build of the new image defined by Dockerfile
 buildah bud -f ./Dockerfile.buildah-cekit -t cekit-buildah .
-
-#get image id
-buildah images
 
 #push image to docker registry
 buildah login registry.hub.docker.com
 buildah push cekit-buildah docker://registry.hub.docker.com/atiouajni/cekit-buildah:latest
-
-#push to openshift internal registry
-buildah login --tls-verify=false -u anyone -p $(cat /var/run/secrets/kubernetes.io/serviceaccount/token) image-registry.openshift-image-registry.svc:5000
-buildah push --tls-verify=false cekit-buildah docker://image-registry.openshift-image-registry.svc:5000/cekit-buildah/cekit-buildah
 ```
 
-If you are runnning Buildah in container, you should clone this repository in your host then rsyn content to the pod
+**3- Build an image with CEKit & Buildah using BuildConfig**
 ```shell
 git clone https://github.com/atiouajni/container-dev; cd container-dev
-oc get pod/buildah
-oc rsync . buildah:/tmp/container-dev/ 
+cat Dockerfile.buildah-cekit| oc new-build --name=cekit-buildah-builder --to=cekit-buildah --dockerfile='-' 
 ```
 
-**3-Run CEKit and Buildah in container**
+**4-Run CEKit and Buildah in container**
 
 ```shell
 oc apply -f https://raw.githubusercontent.com/atiouajni/container-dev/main/kubernetes-manifests/pod-cekit-buildah.yaml
