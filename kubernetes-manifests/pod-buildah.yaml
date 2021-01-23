@@ -1,0 +1,36 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: buildah
+  namespace: spark
+  labels:
+    app: buildah
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+  containers:
+    - resources:
+        limits:
+          cpu: 500m
+          memory: 896Mi
+        requests:
+          cpu: 200m
+          memory: 896Mi
+      name: buildah-container
+      image: 'buildah/buildah'
+      securityContext:
+        privileged: true
+      command: ["sleep", "1d"]
+      volumeMounts:
+        - name: buildcachedir
+          mountPath: /var/lib/containers/cache
+        - name: container-storage-root
+          mountPath: /var/lib/containers/storage
+  volumes:
+    - name: buildcachedir
+      hostPath:
+        path: /var/lib/containers/cache
+        type: ''
+    - name: container-storage-root
+      emptyDir: {}
+
