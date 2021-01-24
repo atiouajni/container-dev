@@ -1,5 +1,5 @@
 # Introduction
-This repository contains tools to build a development environment for conainer creation. The stages do not depend on each other.
+This repository contains tools to build a development environment for container creation. The stages do not depend on each other.
 
 # Setup
 **1- Run Buildah in container**
