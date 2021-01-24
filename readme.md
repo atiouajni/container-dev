@@ -1,3 +1,7 @@
+# Introduction
+This repository contains tools to build a development environment for conainer creation. The stages do not depend on each other.
+
+# Setup
 **1- Run Buildah in container**
 
 You don't want to use docker daemon on your mac and you have a kubernetes cluster, you can run this pod to build container images with Buildah !
