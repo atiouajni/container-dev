@@ -2,10 +2,10 @@ kind: Pod
 apiVersion: v1
 metadata:
   name: buildah
-  namespace: spark
   labels:
     app: buildah
 spec:
+  serviceAccount: builder
   nodeSelector:
     kubernetes.io/os: linux
   containers:
